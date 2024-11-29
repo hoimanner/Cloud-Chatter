@@ -87,22 +87,30 @@
         sendButton.addEventListener('click', async () => {
             const message = messageInput.value.trim();
             if (message) {
-                await db.collection('messages').add({ text: message, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
-                messageInput.value = '';
-                loadMessages();
+                try {
+                    await db.collection('messages').add({ text: message, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
+                    messageInput.value = ''; // Clear input field
+                    loadMessages(); // Reload messages
+                } catch (error) {
+                    console.error("Error adding message: ", error);
+                }
             }
         });
 
         // Function to load messages
         async function loadMessages() {
-            messagesDiv.innerHTML = '';
-            const snapshot = await db.collection('messages').orderBy('timestamp', 'desc').get();
-            snapshot.forEach(doc => {
-                const message = doc.data();
-                const messageElement = document.createElement('div');
-                messageElement.textContent = message.text;
-                messagesDiv.prepend(messageElement);
-            });
+            messagesDiv.innerHTML = ''; // Clear previous messages
+            try {
+                const snapshot = await db.collection('messages').orderBy('timestamp', 'desc').get();
+                snapshot.forEach(doc => {
+                    const message = doc.data();
+                    const messageElement = document.createElement('div');
+                    messageElement.textContent = message.text;
+                    messagesDiv.prepend(messageElement); // Add message to the top
+                });
+            } catch (error) {
+                console.error("Error loading messages: ", error);
+            }
         }
 
         // Load messages on page load
