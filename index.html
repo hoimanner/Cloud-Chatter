@@ -6,53 +6,71 @@
     <title>Cloud Chatter</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
             margin: 0;
-            background-color: #f0f0f5;
+            background: linear-gradient(135deg, #71b7e6, #9b59b6);
+            color: white;
         }
 
         h1 {
             margin-bottom: 20px;
-            font-size: 2.5em;
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
 
         #messageInput {
             width: 80%;
-            padding: 10px;
-            font-size: 1.2em;
-            border: 2px solid #4a90e2;
-            border-radius: 5px;
+            padding: 15px;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 25px;
             margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
         button {
-            padding: 10px 15px;
-            font-size: 1.2em;
+            padding: 15px 30px;
+            font-size: 1.5em;
             color: white;
-            background-color: #4a90e2;
+            background: #4a90e2;
             border: none;
-            border-radius: 5px;
+            border-radius: 25px;
             cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
         button:hover {
-            background-color: #007bff;
+            background: #007bff;
+            transform: scale(1.05);
         }
 
         #messages {
             margin-top: 20px;
             width: 80%;
-            max-height: 300px;
+            max-height: 400px;
             overflow-y: auto;
-            border: 1px solid #4a90e2;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .message {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
             padding: 10px;
-            border-radius: 5px;
-            background-color: #ffffff;
+            margin-bottom: 10px;
+            transition: background 0.3s;
+        }
+
+        .message:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
     </style>
     <script type="module">
@@ -106,6 +124,7 @@
                         const message = doc.data();
                         const messageElement = document.createElement('div');
                         messageElement.textContent = message.text;
+                        messageElement.classList.add('message'); // Add the message class
                         messagesDiv.prepend(messageElement); // Add message to the top
                     });
                 } catch (error) {
